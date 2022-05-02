@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- <meta name="color-scheme" content="dark light"> -->
+    <link rel="stylesheet" href="./styles.css">
+    <title>Team Generator</title>
+</head>
+
+<body>
+    <div id="dark-mode-toggle">
+        <div>
+            LIGHT/DARK
+            <input type="checkbox" id="toggle-mode">
+            <label for="toggle-mode"></label>
+        </div>
+    </div>
+    <div class="container">
+        <h1>Team Generator</h1>
+        <input type="datetime-local" name="asd" id="asd">
+        <div class="wrapper flex">
+            <div class="left-col item-50">
+                <div class="flex justify-content-between gap-20">
+                    <div class="flex-grow-1">
+                        <label for="participants-name">Add Member</label>
+                        <div class="flex">
+                            <input type="text" name="participants-name" id="participants-name" class="flex-grow-1"
+                                placeholder="Player name">
+                            <button onclick="addPerson()">Add</button>
+                        </div>
+                    </div>
+                    <div>
+                        <label for="teams-n">Teams</label>
+                        <div class="flex">
+                            <button onclick="removeTeam()">-</button>
+                            <input type="number" name="teams-n" id="teams-n" value="2">
+                            <button onclick="addTeam()">+</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="alert">
+                    Insert a person name to begin
+                </div>
+
+                <ul class="hidden">
+                </ul>
+                <div class="flex gap-10">
+                    <button class="flex-grow-1" onclick="assign()">Assign member</button>
+                    <button onclick="reset()">Reset</button>
+                </div>
+
+            </div>
+
+            <div class="right-col item-50 flex flex-wrap">
+                <div class="list">
+                    <h3>Team 1</h3>
+                    <ul>
+                    </ul>
+                </div>
+                <div class="list">
+                    <h3>Team 2</h3>
+                    <ul>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const inputName = document.getElementById("participants-name")
+        const mainList = document.querySelector(".wrapper ul")
+        const teamsContainer = document.querySelector(".right-col")
+        const teamsNum = document.getElementById("teams-n")
+
+
+        function addPerson() {
+            if (inputName.value !== "") {
+                const li = document.createElement("li")
+                li.innerText = inputName.value
+
+                mainList.appendChild(li)
+
+                if (mainList.children.length > 0) {
+                    mainList.classList.remove("hidden")
+                    document.querySelector(".alert").classList.add("hidden")
+                }
+
+            }
+        }
+
+        function createTeam(number) {
+            teamsContainer.innerHTML += `<div class="list">
+                    <h3>Team ${number}</h3>
+                    <ul>
+                    </ul>
+                </div>
+                `
+        }
+
+
+        let teamsCount = 2
+
+        function addTeam() {
+            teamsCount++
+            teamsNum.value = teamsCount
+            createTeam(teamsCount)
+        }
+
+        function removeTeam() {
+
+            if (teamsCount > 2) {
+                teamsCount--
+                teamsNum.value = teamsCount
+                const lastTeam = teamsContainer.children[teamsContainer.children.length - 1]
+                console.log(lastTeam)
+                const names = lastTeam.querySelectorAll("ul li")
+
+                for (let i = 0; i < names.length; i++) {
+                    let li = names[i]
+                    mainList.appendChild(li)
+                }
+                lastTeam.remove()
+            }
+        }
+
+        let teamIndex = 0
+
+        function assign() {
+
+            const numberOfParticipants = mainList.children.length
+            const randomPosition = Math.floor(Math.random() * numberOfParticipants)
+
+            const personFound = mainList.children[randomPosition]
+
+            console.log(personFound)
+
+            if (personFound) {
+                const teams = document.querySelectorAll(".right-col .list ul")
+
+                if (teamIndex === teams.length) { teamIndex = 0 }
+
+                teams[teamIndex].appendChild(personFound)
+
+                teamIndex++
+            }
+        }
+
+        function reset() {
+            inputName.value = ""
+            teamsNum.value = 2
+            mainList.innerHTML = ""
+            teamsContainer.innerHTML = ""
+
+            for (let i = 0; i < 2; i++) {
+                createTeam(i + 1)
+            }
+        }
+
+        // DARK MODE LOGIC
+
+        let darkMode = window.localStorage.getItem("darkMode"); // retrieving a value from localStorage with a key of "darkMode"
+
+        const darkModeToggle = document.getElementById("toggle-mode")
+        const html = document.querySelector("html")
+
+        const enableDarkMode = function () {
+            html.classList.add("dark-mode") // the html will receive the class, and the css 
+            window.localStorage.setItem("darkMode", "enabled") // setting the value "enabled" in the localStorage
+        }
+
+        const disableDarkMode = function () {
+            html.classList.remove("dark-mode")
+            window.localStorage.setItem("darkMode", "disabled") // setting the value "disabled" in the localStorage
+        }
+
+        darkModeToggle.addEventListener("change", function () {
+            darkMode = window.localStorage.getItem("darkMode") // retrieving a value from localStorage with a key of "darkMode"
+            if (darkMode !== "enabled") { // if it's disabled we are activating it
+                enableDarkMode()
+                console.log("enabled!")
+            } else { // if it's already active we are going to disable it
+                disableDarkMode()
+                console.log("disabled!")
+            }
+        })
+
+        window.addEventListener("DOMContentLoaded", function () {
+            if (darkMode === "enabled") {
+                enableDarkMode()
+            }
+        })
+
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,173 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html.dark-mode {
+  color-scheme: dark;
+}
+body {
+  margin: 0;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  /* background-color: #f8f8f8; */
+}
+
+/* @media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: dark;
+  }
+} */
+
+h1 {
+  font-size: 60px;
+  font-weight: 100;
+  text-transform: uppercase;
+}
+
+label {
+  display: block;
+}
+
+input {
+  min-height: 36px;
+}
+
+input[type="number"] {
+  max-width: 50px;
+}
+
+#dark-mode-toggle {
+  position: absolute;
+  top: 0;
+  right: 20px;
+}
+
+#toggle-mode {
+  display: none;
+}
+
+#toggle-mode + label {
+  width: 80px;
+  height: 40px;
+  border: 3px solid;
+  border-radius: 100px;
+  position: relative;
+  cursor: pointer;
+}
+
+#toggle-mode + label::before {
+  content: "";
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  top: 0;
+  bottom: 0;
+  left: 2px;
+  margin: auto;
+  background-color: black;
+}
+
+html.dark-mode #toggle-mode + label {
+  background-color: black;
+}
+html.dark-mode #toggle-mode + label::before {
+  transform: translateX(40px);
+  background-color: white;
+}
+
+.container {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.hidden {
+  display: none;
+}
+
+.alert {
+  background-color: aquamarine;
+  padding: 1rem;
+  margin: 1rem 0;
+}
+
+html.dark-mode .alert {
+  background-color: #4aac8b;
+}
+
+.flex {
+  display: flex;
+}
+
+.flex-wrap {
+  flex-wrap: wrap;
+}
+
+.justify-content-between {
+  justify-content: space-between;
+}
+
+.gap-20 {
+  gap: 20px;
+}
+.gap-10 {
+  gap: 10px;
+}
+
+.flex-grow-1 {
+  flex-grow: 1;
+}
+
+.item-50 {
+  flex-basis: 50%;
+  max-width: 50%;
+}
+
+@media (max-width: 900px) {
+  .wrapper {
+    flex-direction: column;
+  }
+
+  .item-50 {
+    max-width: initial;
+  }
+}
+
+@media (min-width: 901px) {
+  .left-col {
+    padding-right: 20px;
+  }
+}
+html:not(.dark-mode) .left-col ul {
+  background-color: white;
+}
+
+.left-col ul,
+.list ul {
+  border-radius: 0.25rem;
+  list-style: none;
+  border: 1px solid #dbdbdb;
+  padding-left: 0;
+}
+
+.left-col ul {
+  padding: 1rem 1.5rem;
+  box-shadow: inset 0 3px 10px rgb(0 0 0 / 10%);
+}
+
+html.dark-mode .left-col ul {
+  box-shadow: inset 0 3px 10px rgb(255 255 255 / 50%);
+}
+
+.list {
+  flex-basis: 33.333%;
+  max-width: 33.333%;
+  flex-shrink: 0;
+  padding: 0 10px;
+}
+
+.list ul {
+  padding: 1rem;
+}
